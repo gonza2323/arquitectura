@@ -18,39 +18,26 @@
 \usepackage{xcolor}
 \usepackage{minted}
 \usepackage{enumitem}
+\usepackage{sectsty}
 
+
+\sectionfont{\fontsize{12}{15}\selectfont}
+\definecolor{bg}{gray}{0.1}
 
 % Opciones para entornos de código fuente
-\setminted[python3]{
-    style=default,
-    % bgcolor=background,
-    breaklines,
-    linenos=true,
-    firstnumber=0,
-    fontsize=\footnotesize,
-    frame=single,
-    samepage=true,
+\setminted[nasm]{
+    style=github-dark,
+    bgcolor=bg,
+    fontfamily=tt,
+    fontseries=b,
+    % breaklines=true,
+    % linenos=true,
+    % firstnumber=0,
+    fontsize=\small,
+    % frame=single,
+    % samepage=true,
     % xleftmargin=20pt,
     % xrightmargin=20pt,
-}
-
-
-% Opciones para entornos de pseudocódigo
-\lstset{
-    language=Python,                    % the language of the code
-    basicstyle=\footnotesize\ttfamily,  % the size of the fonts that are used for the code
-    breakatwhitespace=true,             % sets if automatic breaks should only happen at whitespace
-    breaklines=true,                    % sets automatic line breaking
-    keepspaces=true,                    % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-    escapeinside={\%*}{*)},             % if you want to add LaTeX within your code
-    extendedchars=true,                 % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-    otherkeywords={None,Entrada,Salida},% if you want to add more keywords to the set
-    deletekeywords={del},               % if you want to delete keywords from the given language
-    literate=   {á}{{\'a}}1             % fixes utf-8 errors in lstlisting environments
-                {é}{{\'e}}1
-                {í}{{\'i}}1
-                {ó}{{\'o}}1
-                {ú}{{\'u}}1,
 }
 
 
@@ -59,11 +46,21 @@
 \lhead{\includegraphics[height=32pt]{img/logo-uncuyo-fing.pdf}}
 \rhead{ Licenciatura en Ciencias de la Computación \\
         Arquitectura de las Computadoras \\
-        Árboles Balanceados: AVL}
+        TP Nº 2: Lenguaje Ensamblador}
 \rfoot{\thepage}
 \pagestyle{fancy}
 
 
 \begin{document}
 \input{titulo.tex}
+\section*{1. a) Programa que sume dos datos}
+\inputminted{nasm}{./code/1a.txt}
+\section*{1. b) Programa que realice la suma y la resta con dos datos almacenados en memoria}
+\inputminted{nasm}{./code/1b.txt}
+\section*{1. c) Escribir un programa que compare dos números. Si son iguales el programa debe finalizar y si son distintos los debe sumar}
+\inputminted{nasm}{./code/1c.txt}
+\section*{1. d) Un programa que lea un dato e indique si es par o impar}
+\inputminted{nasm}{./code/1d.txt}
+\section*{1. e) Programa que indique el funcionamiento del stack (pila).}
+\inputminted{nasm}{./code/1e.txt}
 \end{document}
