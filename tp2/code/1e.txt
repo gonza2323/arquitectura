@@ -1,0 +1,107 @@
+; 1.e) Programa que indica el funcionamiento del stack
+
+	CALL main	; Salta al programa principal
+	HLT
+
+output:	DB 0xE8
+dato:	DB 5
+equal:	DB " = "
+	DB 0
+exclm:	DB "!"
+	DB 0
+times:	DB " × "
+	DB 0
+
+
+main:			; Programa principal
+	SUB SP, 4	; Alocamos 4 bytes para string x
+	PUSH [dato]
+	CALL bin2ascii
+	INC SP
+	MOV A, SP
+	ADD A, 1
+	PUSH A
+	CALL print
+	INC SP
+	PUSH exclm
+	CALL print
+	INC SP
+	PUSH equal
+	CALL print
+	INC SP
+	DEC SP		; Alocamos 1 byte
+	PUSH [dato]	; Pasamos el argumento al stack
+	CALL factorial	; Calculamos el factorial
+	INC SP		; Sacamos argumento del stack
+	SUB SP, 4	; Alocamos 4 bytes
+	PUSH [SP+5]	; Pasamos el factorial como argumento
+	CALL bin2ascii	; Convertimos el número a ASCII
+	INC SP		; Sacamos argumento del stack
+	MOV A, SP
+	ADD A, 1
+	PUSH A
+	CALL print	; Imprimimos el resultado
+	INC SP
+	ADD SP, 9	; Liberamos memoria
+	RET
+
+
+factorial:		; Factorial como función recursiva
+	DEC SP		; Alocamos 1 byte
+	MOV A, [SP+3]	; Argumento 'n' a registro A
+	CMP A, 0	; Comparamos argumento con 0
+	JZ ifZero	; Salto condicional
+	DEC A		; Decrementamos A
+	PUSH A		; Argumento 'n-1' al stack
+	CALL factorial	; Llamamos factorial(n-1)
+	INC SP		; Sacamos argumento del stack
+	MOV A, [SP+1]	; Resultado de factorial(n-1) a A
+	MOV B, [SP+3]	; Argumento 'n' a B
+	MUL B		; Multiplicar A * !(A-1)
+	MOV [SP+4], A	; Resultado a valor de retorno
+	INC SP		; Liberamos memoria
+	RET
+ifZero:
+	MOV [SP+4], 1	; Si es cero, retornamos 1
+	INC SP		; Liberamos memoria
+	RET
+		
+
+bin2ascii:		; Convierte de binario a ASCII
+	MOV A, [SP+2]
+	MOV B, A
+	DIV 100
+	MOV C, A
+	ADD C, 48
+	MOV [SP+3], C
+	MUL 100
+	SUB B, A
+	MOV A, B
+	DIV 10
+	MOV C, A
+	ADD C, 48
+	MOV [SP+4], C
+	MUL 10
+	SUB B, A
+	ADD B, 48
+	MOV [SP+5], B
+	MOV [SP+6], 0
+	RET
+
+print:
+	MOV C, [SP+2]
+	MOV D, [output]
+loop:
+	MOV A, [C]
+	CMP A, 0
+	JZ endloop
+	CMP D, 0
+	JNZ ahead
+	MOV D, 0xE8
+ahead:	MOV [D], A
+	INC C
+	INC D	
+	JMP loop
+endloop:
+	MOV [output], D
+	RET

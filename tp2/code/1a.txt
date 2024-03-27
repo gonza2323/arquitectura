@@ -1,0 +1,25 @@
+; 1.a) Sumar dos números
+
+start:
+	MOV B, 42	; Colocamos 42 en el registro B
+	ADD B, 128	; Le sumamos 128
+
+bin2ascii:		; Bonus: Lo pasamos a ASCII y lo imprimimos
+	MOV D, 0xE8
+	MOV A, B
+	DIV 100
+	MOV C, A
+	ADD C, 48
+	MOV [D], C
+	MUL 100
+	SUB B, A
+	MOV A, B
+	DIV 10
+	MOV C, A
+	ADD C, 48
+	MOV [D+1], C
+	MUL 10
+	SUB B, A
+	ADD B, 48
+	MOV [D+2], B
+	HLT

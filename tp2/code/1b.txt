@@ -1,0 +1,33 @@
+; 1.b) Sumar dos números almacenados en memoria
+
+	JMP start	; Salta al programa principal
+
+datos:			; Números a comparar
+	DB 42
+	DB 128
+
+start:			; Programa principal
+	MOV D, datos	; Cargamos la dirección del 1er número
+	MOV A, [D]	; Cargamos el primer número en el registro A
+	ADD A, [D+1]	; Le sumamos el segundo número
+	PUSH A		; Guardamos el resultado en el stack
+
+bin2ascii:		; Bonus: Lo pasamos a ASCII y lo imprimimos
+	MOV D, 0xE8
+	MOV B, A
+	DIV 100
+	MOV C, A
+	ADD C, 48
+	MOV [D], C
+	MUL 100
+	SUB B, A
+	MOV A, B
+	DIV 10
+	MOV C, A
+	ADD C, 48
+	MOV [D+1], C
+	MUL 10
+	SUB B, A
+	ADD B, 48
+	MOV [D+2], B
+	HLT

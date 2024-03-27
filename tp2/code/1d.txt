@@ -1,0 +1,58 @@
+; 1.d) Es par o impar
+
+	JMP start	; Salta al programa principal
+
+dato:			; Número a analizar
+	DB 41
+msgEven:
+	DB " es par"	; Mensaje si es par
+	DB 0
+msgOdd:
+	DB " es impar"	; Mensaje si es impar
+	DB 0
+
+start:			; Programa principal
+	MOV A, [dato]	; Cargamos el número en el registro A
+	PUSH A
+	CALL printNo	; Lo imprimimos
+	POP A
+	MOV D, msgEven
+	AND A, 0x01	; Obtenemos el primer bit
+	JZ ifEven	; Si es par, salteamos la siguiente instrucción
+	MOV D, msgOdd
+ifEven:
+	CALL printMsg
+	HLT
+	
+
+printNo:		; Bonus: Lo pasamos a ASCII y lo imprimimos
+	MOV D, 0xE8
+	MOV B, A
+	DIV 100
+	MOV C, A
+	ADD C, 48
+	MOV [D], C
+	MUL 100
+	SUB B, A
+	MOV A, B
+	DIV 10
+	MOV C, A
+	ADD C, 48
+	MOV [D+1], C
+	MUL 10
+	SUB B, A
+	ADD B, 48
+	MOV [D+2], B
+	RET
+
+printMsg:
+	MOV C, 0xE8
+	ADD C, 3
+.loop:
+	MOV A, [D]	;
+	MOV [C], A	;
+	INC C
+	INC D  
+	CMP A, 0	;
+	JNZ .loop	;
+	RET
