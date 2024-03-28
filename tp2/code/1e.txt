@@ -3,22 +3,19 @@
 
 output: DB 0xE8         ; Posición del cursor
 dato:   DB 5            ; Dato
-equal:  DB "="          ; Símbolos
-exclm:  DB "!"
-times:  DB "×"
 
 main:                   ; Programa principal
     DEC SP              ; Alocamos 1 byte para factorial(n)
     PUSH [dato]         ; Argumento 'n' al stack
     CALL printNo        ; Llamamos a printNo(n)
-    MOV [SP+1], exclm   ; Argumento exclm al stack
+    MOV [SP+1], '!'     ; Argumento exclm al stack
     CALL printChar      ; Llamamos a print(exclm)
-    MOV [SP+1], equal   ; Argumento equal al stack
+    MOV [SP+1], '='     ; Argumento equal al stack
     CALL printChar      ; Llamamos a print(equal)
     INC SP              ; Sacamos argumento del stack
     PUSH [dato]         ; Argumento 'n' al stack
     CALL factorial      ; Calculamos el factorial
-    MOV [SP+1], equal   ; Argumento equal al stack
+    MOV [SP+1], '='      ; Argumento equal al stack
     CALL printChar      ; Llamamos a print(equal)
     INC SP              ; Sacamos argumento del stack
     CALL printNo        ; Llamamos a printNo(n!)
@@ -33,7 +30,7 @@ factorial:              ; factorial(n) como función recursiva
     CMP A, 1            ; Comparamos 'n' con 1
     JZ base             ; Si 'n' == 1, saltamos a base
     CALL printNo        ; Llamamos a printNo(n)
-    MOV [SP+1], times   ; Argumento times al stack
+    MOV [SP+1], '×'     ; Argumento times al stack
     CALL printChar      ; Llamamos a print(times)
     MOV A, [SP+3]       ; Argumento 'n' a registro A
     DEC A               ; Decrementamos 'n'
@@ -85,8 +82,7 @@ skip2:
 
 printChar:              ; Imprime un caracter
     MOV D, [output]     ; Posición cursor a D
-    MOV C, [SP+2]	
-    MOV C, [C]          ; Caracter a C
+    MOV C, [SP+2]	; Caracter a C
     MOV [D], C          ; Caracter al output
     INC D               ; Incremento cursor
     MOV [output], D     ; Actualizo cursor
