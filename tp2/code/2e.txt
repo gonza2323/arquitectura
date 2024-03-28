@@ -1,0 +1,28 @@
+; Escribe "Hola Mundo. ¿Qué tal?" en la salida
+
+    JMP start
+hello:
+    DB "Hola Mundo. ¿Qué tal?"  ; Variable
+    DB 0                        ; Terminación de string
+
+start:
+    MOV C, hello    ; Puntero al string
+    MOV D, 232      ; Puntero a la salida
+    CALL print
+    HLT             ; Detener ejecución
+
+print:              ; print(C: *de, D: *hacia)
+    PUSH A
+    PUSH B
+    MOV B, 0
+.loop:
+    MOV A, [C]      ; Obtener el caracter actual
+    MOV [D], A      ; Escribirlo en la salida
+    INC C           ; Incrementar punteros
+    INC D
+    CMP B, [C]      ; Verificar si es el final de la string
+    JNZ .loop       ; Si no, volver al bucle
+
+    POP B
+    POP A
+    RET
