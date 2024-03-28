@@ -1,0 +1,11 @@
+start:
+    MOV D, 0x60
+    MOV A, 16
+
+loop:
+    DEC A
+    MOV [D], A      ; Carga de números en memoria
+    INC D
+    CMP A, 0
+    JNZ loop        ; Si no es 0, seguimos
+    HLT

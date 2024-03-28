@@ -1,0 +1,22 @@
+start:
+    MOV D, 0x40
+    MOV A, 1
+
+loop0:
+    MOV [D], A      ; Carga de números en memoria
+    ADD A, 16
+    INC D
+    CMP D, 0x4F
+    JBE loop0
+
+    MOV D, 0x40
+    MOV C, 0x60
+
+loop1:
+    MOV A, [D]      ; Carga de números desde la memoria
+    MOV [C], A      ; Guardar en la memoria a partir de 0x60
+    INC C
+    INC D
+    CMP D, 0x4F
+    JBE loop1
+    HLT

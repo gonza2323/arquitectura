@@ -2,7 +2,7 @@
 
 numA:  DB 128       ; Sumando A
 numB:  DB 42        ; Sumando B
-suma:  DB 0         ; Resta
+suma:  DB 0         ; Suma
 
 start:              ; Programa principal
     MOV A, [numA]   ; Cargamos numA en A
