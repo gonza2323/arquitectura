@@ -15,7 +15,7 @@ main:                   ; Programa principal
     INC SP              ; Sacamos argumento del stack
     PUSH [dato]         ; Argumento 'n' al stack
     CALL factorial      ; Calculamos el factorial
-    MOV [SP+1], '='      ; Argumento '=' al stack
+    MOV [SP+1], '='     ; Argumento '=' al stack
     CALL printChar      ; Llamamos a printChar('=')
     INC SP              ; Sacamos argumento del stack
     CALL printNo        ; Llamamos a printNo(n!)
