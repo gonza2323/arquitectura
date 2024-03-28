@@ -5,6 +5,6 @@ start:
 loop:
     MOV [D], A      ; Carga de números en memoria
     INC D
-    SUB A, 5        ; Restamos 5 a A
+    SUB A, 0x05     ; Restamos 5 a A
     JNZ loop        ; Si no es 0, seguimos
     HLT

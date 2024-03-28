@@ -1,11 +1,11 @@
 start:
     MOV D, 0x60
-    MOV A, 16
+    MOV A, 32
 
 loop:
-    DEC A
+    SUB A, 2
     MOV [D], A      ; Carga de números en memoria
     INC D
     CMP A, 0
-    JNZ loop        ; Si no es 0, seguimos
+    JNZ loop        ; Si se cargó 0, terminamos
     HLT

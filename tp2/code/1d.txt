@@ -14,7 +14,7 @@ start:              ; Programa principal
     MOV C, msgEven  ; Cargamos el mensaje "Es par"
     AND A, 0x01     ; Obtenemos el primer bit
     JZ print        ; Si es par, omitimos la siguiente instrucción
-    MOV C, msgOdd   ; Si no lo es, cargamos el otro mensaje
+    MOV C, msgOdd   ; Si no lo es, cargamos el mensaje "Es impar"
 
 print:              ; Imprimimos el mensaje
     MOV D, 0xE8     ; Cargamos la dirección del output
