@@ -45,7 +45,7 @@ factorial:              ; factorial(n) como función recursiva
     RET
 base:
     MOV [SP+1], 1       ; Argumento '1' al stack
-    CALL printNo        ; Llamamos a print(1)
+    CALL printNo        ; Llamamos a printNo(1)
     MOV [SP+4], 1       ; Si es cero, 1 a valor de retorno
     INC SP              ; Liberamos memoria
     RET
