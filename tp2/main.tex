@@ -10,6 +10,7 @@
             includehead,
             includefoot,
             ]{geometry}
+\usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{fancyhdr}
@@ -22,22 +23,26 @@
 
 
 \sectionfont{\fontsize{12}{15}\selectfont}
-\definecolor{bg}{gray}{0.1}
+\definecolor{bg}{RGB}{35, 39, 46}
 
 % Opciones para entornos de código fuente
 \setminted[nasm]{
     style=github-dark,
     bgcolor=bg,
-    fontfamily=tt,
     fontseries=b,
-    % breaklines=true,
+    fontsize=\small,
     % linenos=true,
     % firstnumber=0,
-    fontsize=\small,
     % frame=single,
     % samepage=true,
     % xleftmargin=20pt,
     % xrightmargin=20pt,
+}
+
+\setminted[text]{
+    style=default,
+    fontseries=n,
+    fontsize=\small,
 }
 
 
@@ -53,14 +58,27 @@
 
 \begin{document}
 \input{titulo.tex}
+
 \section*{1. a) Programa que sume dos datos}
 \inputminted{nasm}{./code/1a.txt}
+El resultado queda en el registro A.
+
 \section*{1. b) Programa que realice la suma y la resta con dos datos almacenados en memoria}
 \inputminted{nasm}{./code/1b.txt}
+El resultado de la suma queda en la dirección 0x04, y el de la resta en 0x05.
+
 \section*{1. c) Escribir un programa que compare dos números. Si son iguales el programa debe finalizar y si son distintos los debe sumar}
 \inputminted{nasm}{./code/1c.txt}
+El resultado de la suma queda en la dirección 0x04.
+
 \section*{1. d) Un programa que lea un dato e indique si es par o impar}
 \inputminted{nasm}{./code/1d.txt}
+El resultado se imprime en el output.
+
 \section*{1. e) Programa que indique el funcionamiento del stack (pila).}
+Implemento un programa con funciones que pueden retornar valores y aceptar argumentos, mediante el uso del stack. El programa calcula el factorial de un número $n$, e imprime la fórmula $n! = n \times (n-1) \times \dots \times 2 \times 1 =$ \mintinline{text}|factorial(n)| en el output. Se tienen la función \mintinline{text}{main()}, la función \mintinline{text}{factorial(n)}, que es recursiva, y las funciones \mintinline{text}{printNo(n)} y \mintinline{text}{printChar(c)}, que imprimen un número y un caracter, respectivamente. La función \mintinline{text}{main()} hace llamados a todas las demás; y \mintinline{text}{factorial(n)} llama a \mintinline{text}{printNo(n)}, \mintinline{text}{printChar(c)}, y a sí misma por ser recursiva. 
+
+Antes de llamar a una función, se reserva en el stack el espacio suficiente para el valor de retorno, excepto si no retorna nada, y luego se agregan también sus argumentos, si los requiere. Cada función puede también crear variables locales en su porción del stack, para que no se pierdan sus datos al llamar a otra función.
 \inputminted{nasm}{./code/1e.txt}
+
 \end{document}

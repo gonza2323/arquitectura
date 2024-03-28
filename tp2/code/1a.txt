@@ -1,23 +1,4 @@
 start:
-    MOV A, 128      ; Colocamos 128 en el registro A
-    ADD A, 42       ; Le sumamos 42
-
-printNo:            ; Lo pasamos a ASCII y lo imprimimos
-    MOV D, 0xE8
-    MOV B, A
-    DIV 100
-    MOV C, A
-    ADD C, 48
-    MOV [D], C
-    MUL 100
-    SUB B, A
-    MOV A, B
-    DIV 10
-    MOV C, A
-    ADD C, 48
-    MOV [D+1], C
-    MUL 10
-    SUB B, A
-    ADD B, 48
-    MOV [D+2], B
+    MOV A, 128  ; Colocamos 128 en el registro A
+    ADD A, 42   ; Le sumamos 42
     HLT

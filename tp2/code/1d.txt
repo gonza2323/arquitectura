@@ -1,58 +1,28 @@
-; 1.d) Es par o impar
+    JMP start       ; Salta al programa principal
 
-	JMP start	; Salta al programa principal
+dato:               ; Número a analizar
+    DB 42
+msgEven:            ; Mensaje si es par
+    DB "Es par"
+    DB 0
+msgOdd:             ; Mensaje si es impar
+    DB "Es impar"
+    DB 0
 
-dato:			; Número a analizar
-	DB 41
-msgEven:
-	DB " es par"	; Mensaje si es par
-	DB 0
-msgOdd:
-	DB " es impar"	; Mensaje si es impar
-	DB 0
+start:              ; Programa principal
+    MOV A, [dato]   ; Cargamos el número en el registro A
+    MOV C, msgEven  ; Cargamos el mensaje "Es par"
+    AND A, 0x01     ; Obtenemos el primer bit
+    JZ print        ; Si es par, omitimos la siguiente instrucción
+    MOV C, msgOdd   ; Si no lo es, cargamos el otro mensaje
 
-start:			; Programa principal
-	MOV A, [dato]	; Cargamos el número en el registro A
-	PUSH A
-	CALL printNo	; Lo imprimimos
-	POP A
-	MOV D, msgEven
-	AND A, 0x01	; Obtenemos el primer bit
-	JZ ifEven	; Si es par, salteamos la siguiente instrucción
-	MOV D, msgOdd
-ifEven:
-	CALL printMsg
-	HLT
-	
-
-printNo:		; Bonus: Lo pasamos a ASCII y lo imprimimos
-	MOV D, 0xE8
-	MOV B, A
-	DIV 100
-	MOV C, A
-	ADD C, 48
-	MOV [D], C
-	MUL 100
-	SUB B, A
-	MOV A, B
-	DIV 10
-	MOV C, A
-	ADD C, 48
-	MOV [D+1], C
-	MUL 10
-	SUB B, A
-	ADD B, 48
-	MOV [D+2], B
-	RET
-
-printMsg:
-	MOV C, 0xE8
-	ADD C, 3
+print:              ; Imprimimos el mensaje
+    MOV D, 0xE8     ; Cargamos la dirección del output
 .loop:
-	MOV A, [D]	;
-	MOV [C], A	;
-	INC C
-	INC D  
-	CMP A, 0	;
-	JNZ .loop	;
-	RET
+    MOV A, [C]
+    MOV [D], A      ; Movemos el caracter al output
+    INC C           ; Incrementamos punteros
+    INC D
+    CMP A, 0        ; Verificamos si es el final
+    JNZ .loop       ; Si no lo es, repetimos
+    HLT
