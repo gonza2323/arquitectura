@@ -78,8 +78,12 @@ El resultado se imprime en el output.
 \subsection{Programa que indique el funcionamiento del stack (pila).}
 Implemento un programa con funciones que pueden retornar valores y aceptar argumentos, mediante el uso del stack. El programa calcula el factorial de un número $n$, e imprime la fórmula $n! = n \times (n-1) \times \dots \times 2 \times 1 =$ \mintinline{text}|factorial(n)| en la salida. Se tienen la función \mintinline{text}{main()}, la función \mintinline{text}{factorial(n)}, que es recursiva, y las funciones \mintinline{text}{printNo(n)} y \mintinline{text}{printChar(c)}, que imprimen un número y un caracter, respectivamente. La función \mintinline{text}{main()} hace llamados a todas las demás; y \mintinline{text}{factorial(n)} llama a \mintinline{text}{printNo(n)}, \mintinline{text}{printChar(c)}, y a sí misma por ser recursiva. 
 Antes de llamar a una función, se reserva en el stack el espacio suficiente para el valor de retorno, excepto si no retorna nada, y luego se agregan también sus argumentos, si los requiere. Cada función puede también crear variables locales en su porción del stack para no perder sus datos al llamar a otra función.
-\inputcode{nasm}{./code/1e.txt}
+\pagebreak
+\inputcode{nasm}{./code/1e-a.txt}
+\pagebreak
+\inputcode{nasm}{./code/1e-b.txt}
 
+\pagebreak
 \setcounter{section}{2}
 \setcounter{subsection}{0}
 \subsection{Cargar números en las direcciones 60, 61, 62 y 63.\\
@@ -99,6 +103,7 @@ Antes de llamar a una función, se reserva en el stack el espacio suficiente par
 \subsection{Cargar la línea de memoria RAM desde la memoria 40 a la 4F con 16 datos y transferirlos a partir de la dirección de memoria 60.}
 \inputcode{nasm}{./code/2d.txt}
 
+\pagebreak
 \subsection{Ejemplo de Hello World en español. Cambiar la salida por: Hola Mundo. ¿Qué tal? Explicar y/o comentar el programa en español.}
 \inputcode{nasm}{./code/2e.txt}
 
