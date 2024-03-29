@@ -76,12 +76,14 @@ El resultado de la suma queda en la dirección suma: 0x04.
 El resultado se imprime en el output.
 
 \subsection{Programa que indique el funcionamiento del stack (pila).}
-Implemento un programa con funciones que pueden retornar valores y aceptar argumentos, mediante el uso del stack. El programa calcula el factorial de un número $n$, e imprime la fórmula $n! = n \times (n-1) \times \dots \times 2 \times 1 =$ \mintinline{text}|factorial(n)| en la salida. Se tienen la función \mintinline{text}{main()}, la función \mintinline{text}{factorial(n)}, que es recursiva, y las funciones \mintinline{text}{printNo(n)} y \mintinline{text}{printChar(c)}, que imprimen un número y un caracter, respectivamente. La función \mintinline{text}{main()} hace llamados a todas las demás; y \mintinline{text}{factorial(n)} llama a \mintinline{text}{printNo(n)}, \mintinline{text}{printChar(c)}, y a sí misma por ser recursiva. 
+Implemento un programa con funciones que pueden retornar valores y aceptar argumentos, mediante el uso del stack. El programa calcula el factorial de un número $n$, siempre que $0\leq n\leq 5$, e imprime la fórmula $n! = n \times (n-1) \times \dots \times 2 \times 1 =$ \mintinline{text}|factorial(n)| en la salida. Contiene una función principal \mintinline{text}{main()}, la función \mintinline{text}{factorial(n)}, que es recursiva, y las funciones \mintinline{text}{printNo(n)} y \mintinline{text}{printChar(c)}, que imprimen un número y un caracter, respectivamente. La función \mintinline{text}{main()} hace llamados a todas las demás; y \mintinline{text}{factorial(n)} llama a \mintinline{text}{printNo(n)}, \mintinline{text}{printChar(c)}, y a sí misma por ser recursiva.
+
 Antes de llamar a una función, se reserva en el stack el espacio suficiente para el valor de retorno, excepto si no retorna nada, y luego se agregan también sus argumentos, si los requiere. Cada función puede también crear variables locales en su porción del stack para no perder sus datos al llamar a otra función.
 \pagebreak
 \inputcode{nasm}{./code/1e-a.txt}
 \pagebreak
 \inputcode{nasm}{./code/1e-b.txt}
+Escribe \mintinline{text}{5!=5×4×3×2×1=120} en la salida.
 
 \pagebreak
 \setcounter{section}{2}
