@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 _minted*/
 snippets/
+.vscode/
 *.aux
 *.dvi
 *.fdb_latexmk
