@@ -12,38 +12,36 @@
             ]{geometry}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{listings}
-\usepackage{fancyhdr}
 \usepackage{parskip}
-\usepackage{courier}
+\usepackage{fancyhdr}
 \usepackage{xcolor}
-\usepackage{minted}
-\usepackage{enumitem}
 \usepackage{sectsty}
+\usepackage[many, minted]{tcolorbox}
+\usepackage{titlesec}
 
 
-\sectionfont{\fontsize{10}{15}\selectfont}
-\definecolor{bg}{RGB}{35, 39, 46}
+% Cambiar formato de subsección
+\renewcommand{\thesubsection}{\thesection. \alph{subsection})}
+\titleformat{\subsection}[hang]{\normalfont\normalsize\bfseries}{\llap{\thesubsection\hspace{1em}}}{0em}{}
+\makeatletter
+\def\@seccntformat#1{\csname the#1\endcsname\quad}
+\makeatother
+
 
 % Opciones para entornos de código fuente
-\setminted[nasm]{
-    style=github-dark,
-    bgcolor=bg,
-    fontseries=b,
-    fontsize=\small,
-    % linenos=true,
-    % firstnumber=0,
-    % frame=single,
-    % samepage=true,
-    % xleftmargin=20pt,
-    % xrightmargin=20pt,
-}
+\definecolor{bg}{RGB}{29, 35, 49}
+\definecolor{framecolor}{RGB}{125, 138, 151}
 
-\setminted[text]{
-    style=default,
-    fontseries=n,
-    fontsize=\small,
-}
+\newtcbinputlisting{\inputcode}[3][]{
+    listing only,
+    listing engine=minted,
+    listing file={#3},
+    minted language={#2},
+    minted style=lightbulb,
+    breakable,
+    colback=bg,
+    colframe=framecolor,
+    #1}
 
 
 % Encabezado y pie de página
@@ -51,69 +49,57 @@
 \lhead{\includegraphics[height=32pt]{img/logo-uncuyo-fing.pdf}}
 \rhead{ Licenciatura en Ciencias de la Computación \\
         Arquitectura de las Computadoras \\
-        TP Nº 2: Lenguaje Ensamblador}
+        TP N\textsuperscript{o} 2: Lenguaje Ensamblador}
 \rfoot{\thepage}
 \pagestyle{fancy}
 
 
 \begin{document}
+
 \input{titulo.tex}
 
-\section*{1. a) Programa que sume dos datos}
-
-\inputminted{nasm}{./code/1a.txt}
-
+\setcounter{section}{1}
+\subsection{Programa que sume dos datos}
+\inputcode{nasm}{./code/1a.txt}
 El resultado queda en el registro A.
 
-\section*{1. b) Programa que realice la suma y la resta con dos datos almacenados en memoria}
-
-\inputminted{nasm}{./code/1b.txt}
-
+\subsection{Programa que realice la suma y la resta con dos datos almacenados en memoria}
+\inputcode{nasm}{./code/1b.txt}
 El resultado de la suma queda en la dirección suma: 0x04, y el de la resta en resta: 0x05.
 
-\section*{1. c) Escribir un programa que compare dos números. Si son iguales el programa debe finalizar y si son distintos los debe sumar}
-
-\inputminted{nasm}{./code/1c.txt}
-
+\subsection{Escribir un programa que compare dos números. Si son iguales el programa debe finalizar y si son distintos los debe sumar}
+\inputcode{nasm}{./code/1c.txt}
 El resultado de la suma queda en la dirección suma: 0x04.
 
-\section*{1. d) Un programa que lea un dato e indique si es par o impar}
-
-\inputminted{nasm}{./code/1d.txt}
-
+\subsection{Un programa que lea un dato e indique si es par o impar}
+\inputcode{nasm}{./code/1d.txt}
 El resultado se imprime en el output.
 
-\section*{1. e) Programa que indique el funcionamiento del stack (pila).}
-
+\subsection{Programa que indique el funcionamiento del stack (pila).}
 Implemento un programa con funciones que pueden retornar valores y aceptar argumentos, mediante el uso del stack. El programa calcula el factorial de un número $n$, e imprime la fórmula $n! = n \times (n-1) \times \dots \times 2 \times 1 =$ \mintinline{text}|factorial(n)| en la salida. Se tienen la función \mintinline{text}{main()}, la función \mintinline{text}{factorial(n)}, que es recursiva, y las funciones \mintinline{text}{printNo(n)} y \mintinline{text}{printChar(c)}, que imprimen un número y un caracter, respectivamente. La función \mintinline{text}{main()} hace llamados a todas las demás; y \mintinline{text}{factorial(n)} llama a \mintinline{text}{printNo(n)}, \mintinline{text}{printChar(c)}, y a sí misma por ser recursiva. 
-
 Antes de llamar a una función, se reserva en el stack el espacio suficiente para el valor de retorno, excepto si no retorna nada, y luego se agregan también sus argumentos, si los requiere. Cada función puede también crear variables locales en su porción del stack para no perder sus datos al llamar a otra función.
+\inputcode{nasm}{./code/1e.txt}
 
-\inputminted{nasm}{./code/1e.txt}
-
-\section*{  2. a) Cargar números en las direcciones 60, 61, 62 y 63.\\
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+\subsection{Cargar números en las direcciones 60, 61, 62 y 63.\\
             Restarle una constante (por ejemplo el, hexadecimal 7).\\
             Transferir el resultado a las direcciones 70, 71, 72 y 73.}
+\inputcode{nasm}{./code/2a.txt}
 
-\inputminted{nasm}{./code/2a.txt}
-
-\section*{  2. b) Cargar N números (por ejemplo 16) a partir de la dirección 60.\\
+\subsection{Cargar N números (por ejemplo 16) a partir de la dirección 60.\\
             Terminar el ingreso de números, si ingresa un dato igual a 0.}
+\inputcode{nasm}{./code/2b.txt}
 
-\inputminted{nasm}{./code/2b.txt}
-
-\section*{  2. c) Cargar N números a partir de la dirección 60.\\
+\subsection{Cargar N números a partir de la dirección 60.\\
             Restarle una constante (por ejemplo el, hexadecimal 5).\\
             Terminar el ingreso de números, si el resultado de la resta es cero.}
+\inputcode{nasm}{./code/2c.txt}
 
-\inputminted{nasm}{./code/2c.txt}
+\subsection{Cargar la línea de memoria RAM desde la memoria 40 a la 4F con 16 datos y transferirlos a partir de la dirección de memoria 60.}
+\inputcode{nasm}{./code/2d.txt}
 
-\section*{  2. d) Cargar la línea de memoria RAM desde la memoria 40 a la 4F con 16 datos y transferirlos a partir de la dirección de memoria 60.}
-
-\inputminted{nasm}{./code/2d.txt}
-
-\section*{  2. e) Ejemplo de Hello World en español. Cambiar la salida por: Hola Mundo. ¿Qué tal? Explicar y/o comentar el programa en español.}
-
-\inputminted{nasm}{./code/2e.txt}
+\subsection{Ejemplo de Hello World en español. Cambiar la salida por: Hola Mundo. ¿Qué tal? Explicar y/o comentar el programa en español.}
+\inputcode{nasm}{./code/2e.txt}
 
 \end{document}
