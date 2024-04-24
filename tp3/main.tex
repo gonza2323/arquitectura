@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[spanish]{babel}
+\usepackage[a4paper,
+            top=2cm,
+            bottom=2cm,
+            left=3cm,
+            right=3cm,
+            headheight=36pt,
+            nomarginpar,
+            includehead,
+            includefoot,
+            ]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage[many, minted]{tcolorbox}
+\usepackage{titlesec}
+
+
+% Cambiar formato de subsección
+\renewcommand{\thesubsection}{\thesection. \alph{subsection})}
+\titleformat{\subsection}[hang]{\normalfont\normalsize\bfseries}{\llap{\thesubsection\hspace{1em}}}{0em}{}
+\makeatletter
+\def\@seccntformat#1{\csname the#1\endcsname\quad}
+\makeatother
+
+
+% Opciones para entornos de código fuente
+\definecolor{bg}{RGB}{29, 35, 49}
+\definecolor{framecolor}{RGB}{125, 138, 151}
+
+\newtcbinputlisting{\inputcode}[3][]{
+    listing only,
+    listing engine=minted,
+    listing file={#3},
+    minted language={#2},
+    minted style=lightbulb,
+    breakable,
+    colback=bg,
+    colframe=framecolor,
+    #1}
+
+
+% Encabezado y pie de página
+\fancyhf{}
+\lhead{\includegraphics[height=32pt]{img/logo-uncuyo-fing.pdf}}
+\rhead{ Licenciatura en Ciencias de la Computación \\
+        Arquitectura de las Computadoras \\
+        TP N\textsuperscript{o} 3: Dispositivos de Memoria}
+\rfoot{\thepage}
+\pagestyle{fancy}
+
+
+\begin{document}
+
+\input{titulo.tex}
+
+
+\subsection*{Realizar una tabla comparativa entre una Memorias GDDR5 y una memoria DDR4}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        Característica & GDDR5 & DDR4 \\
+        \hline
+        a & b & c \\
+    \end{tabular}
+\end{center}
+
+\subsection*{Realizar una tabla comparativa entre un disco SSD y un o mecánico de 256GB}
+
+
+\end{document}
