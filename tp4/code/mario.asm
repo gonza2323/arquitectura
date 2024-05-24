@@ -1,5 +1,6 @@
     JMP boot
 vslDisplay EQU 0x300
+
 sprite:
     DB "\xFF\xFF\xFF\xFF\xFF\xC4\xC4\xC4"
     DB "\xC4\xC4\xFF\xFF\xFF\xFF\xFF\xFF"
@@ -33,21 +34,23 @@ sprite:
     DB "\xFF\xFF\x8C\x8C\x8C\xFF\xFF\xFF"
     DB "\xFF\xFF\x8C\x8C\x8C\x8C\xFF\xFF"
     DB "\xFF\xFF\x8C\x8C\x8C\x8C\xFF\xFF"
+    
 boot:
-    MOV C, sprite		; Carga al registro C la imagen.
-    MOV D, vslDisplay	; Puntero de la pantalla
+    MOV C, sprite       ; Carga al registro C la imagen.
+    MOV D, vslDisplay   ; Puntero de la pantalla
 
 .loop:
-    MOVB AL, [C]        ; Mueve al regristro A el valor del color actual del valor de C
-    CMP A, 0xC4         ; Valor de color verde, cuando el registro A tiene el color verde salta a chageColor
-    JZ .changeColor
+    MOVB AL, [C]        ; Mueve al registro A el valor del color actual del valor de C
+    CMP A, 0xC4         ; Comparar con el color rojo
+    JZ .changeColor     ; Si es rojo, saltamos a changeColor
 .paint:
-    MOVB [D], AL        ; Coloca el pixel en la posicion de la pantalla actual.
+    MOVB [D], AL        ; Coloca el pixel en la posición de la pantalla actual.
     INC C
     INC D
-    CMP D, 0x400
-    JNZ .loop
+    CMP D, 0x400        ; Verificamos si llegamos al final de la pantalla
+    JNZ .loop           ; Si no, volvemos al loop
     HLT
+
 .changeColor:
-    MOVB AL, 0x10
-    JMP .paint
+    MOVB AL, 0x10       ; Color verde al registro AL
+    JMP .paint          ; Saltamos a .paint, ahora con el color verde

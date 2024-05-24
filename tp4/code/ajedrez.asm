@@ -1,53 +1,41 @@
-Pulsador:           ; Subrutina que realiza el polling de los botones
-    IN 6            ; Cargamos el registro con el botón presionado
-    MOV B,0x300     ; Cargamos en el resgistro B la dirección de la pantalla
-    CMP A,0x032     ; Lo comparamos con el carácter ASCII de '2'
+ScrStart  EQU 0x0300 ; Comienzo de la pantalla
+ScrEnd    EQU 0x0400 ; Fin de la pantalla
+KeyStatus EQU 0x0005 ; Registro de estado del teclado
+KeyData   EQU 0x0006 ; Registro de botón presionada
+
+Input:              ; Loop que realiza el polling de los botones
+    IN KeyStatus    ; Estado del teclado a registro A
+    CMP A, 0
+    JZ Input        ; Si se presionó, seguimos, si no, volvemos a 'Input'
+    MOV D, ScrStart ; Dirección de la pantalla al registro D
+    IN KeyData      ; Botón presionado al registro A
+    CMP A, 0x032    ; Comparamos con el carácter ASCII de '2'
     JZ Print        ; Si es '2', saltamos a la subrutina 'Print'
-    CMP A,0x031     ; Lo comparamos con el carácter ASCII de '1'
-    JZ Borrar       ; Si es '1', saltamos a la subrutina 'Borrar'
-    JMP             ; De otra forma, volvemos al loop del pulsador
+    CMP A, 0x031    ; Comparamos con el carácter ASCII de '1'
+    JZ Clear        ; Si es '1', saltamos a la subrutina 'Clear'
+    JMP Input       ; De otra forma, volvemos al loop de 'Input'
 
-Borrar:             ; Subrutina para borrar el tablero
-    INC B           ; Incrementamos el puntero de los píxeles
-    MOVB [B],0xFF   ; Movemos el color blanco a ese pixel
-      CMP B,0x03FF  ; Verificamos si llegamos al último pixel
-    JZ Pulsador     ; Si es así, volvemos al loop del pulsador
-    JMP Borrar      ; Si no, volvemos a 'Borrar' para seguir borrando
-
-Print:
-    MOVB CL,0x00    ; Cargamos 0 en el registro CL
-Bl:
-    MOVB DL,0x00    ; Cargamos 0 en el registro DL
-Blanco:
-    INC B           ; Incrementamos el puntero de los píxeles
-    CMP B,0x03FF    ; Verificamos si llegamos al último pixel.
-    JZ Pulsador     ; Si es así, volvemos al loop del pulsador
-    INCB CL         ; Si no, incrementamos CL
-    INCB DL         ; Incrementamos DL
-    CMPB CL,0x0002  ; Comparamos CL con '2'
-     JZ Salto2      ; Si es así, vamos a 'Salto2'
-    JMP Blanco      ; si no, a 'Blanco'
-Ng:
-    MOVB DL,0x00
-Negro:
-    MOVB [B],0x00
-    INC B
-    CMP B,0x03FF
-    JZ Pulsador
-    INCB CL
-    INCB DL
-    CMPB CL,0x0002
-    JZ Salto1
-    JMP Negro
-Salto1:
-    MOVB CL,0x00
-    CMPB DL,0x0020
-    JZ Ng
-    JMP Blanco
-Salto2:
-    MOVB CL,0x00    ; Reiniciamos el contador C
-    CMPB DL,0x0020  ; Comparamos D con 32
-    JZ Bl           ; Si llegamos a 32, saltamos a 'Bl' para pintar con negro
-    JMP Negro
-    
-    HLT
+Clear:              ; Subrutina para borrar el tablero
+    MOVB [D], 0xFF  ; Pintamos de blanco el pixel actual
+    INC D           ; Incrementamos el puntero
+    CMP D, ScrEnd   ; Verificar si llegamos al final
+    JZ Input        ; Si es así, volver a 'Input'
+    JMP Clear       ; Si no, volvemos a 'Clear' para seguir borrando
+Print:              ; Subrutina que dibuja el tablero
+    MOVB AL, 0      ; Color inicial a A
+Row:                ; Loop de las 'filas' de 32 píxeles
+    MOV B, 32       ; 32 al registro B
+    NOTB AL         ; Invertimos el color
+Square:             ; Loop de los 'cuadro' de 2 píxeles
+    MOV C, 2        ; 2 al registro C
+    NOTB AL         ; Invertimos el color
+Pixel:              ; Loop para pintar píxeles
+    MOVB [D], AL    ; Pintamos el pixel actual con el color actual
+    INC D           ; Incrementamos el puntero
+    CMP D, ScrEnd   ; Verificar si llegamos al final
+    JZ Input        ; Si es así, volver a 'Input'
+    DEC B           ; Decrementamos contador de 'fila'
+    JZ Row          ; Si terminó la fila, volvemos a 'Row'
+    DEC C           ; Decrementamos contador de 'cuadro'
+    JZ Square       ; Si terminó el cuadro, volvemos a 'Square'
+    JMP Pixel       ; Volver a 'Pixel'

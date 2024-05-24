@@ -30,27 +30,12 @@
     listing file={#3},
     minted language={#2},
     minted style=lightbulb,
+    % minted options={fontseries=b},
     breakable,
     colback=bg,
     colframe=framecolor,
     #1
 }
-
-
-% Opciones para entornos de pseudocódigo
-\lstset{
-    breakatwhitespace=true,             % sets if automatic breaks should only happen at whitespace
-    breaklines=true,                    % sets automatic line breaking
-    keepspaces=true,                    % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-    columns=flexible,
-    escapechar=|,
-    literate=   {á}{{\'a}}1             % corrige errores de utf-8
-                {é}{{\'e}}1
-                {í}{{\'i}}1
-                {ó}{{\'o}}1
-                {ú}{{\'u}}1,
-}
-
 
 % Encabezado y pie de página
 \fancyhf{}
@@ -64,6 +49,8 @@
 
 \begin{document}
 \input{titulo.tex}
+
+
 \section*{Actividad 1 - Entrada salida mediante mapeo en memoria e instrucciones especiales - Lenguaje ensamblador}
 
 En esta actividad utilizará el simulador Assembler Simulator de 16-bit: (\url{https://parraman.github.io/asm-simulator/}). En dicho simulador, una pantalla de 16x16 píxeles de 255 colores se mapea en memoria desde la posición 0x0300 hasta la posición 0x03FF. Cada posición de memoria en dicho rango mapea un píxel de la pantalla.
@@ -73,6 +60,7 @@ En esta actividad utilizará el simulador Assembler Simulator de 16-bit: (\url{h
 \end{center}
 
 Por otro lado, el simulador incluye un teclado que puede accederse a través de la instrucción especial IN. Dicha instrucción deposita en el registro A el valor leído desde el teclado.
+
 
 \subsection*{1.1 Tablero de ajedrez}
 
@@ -89,26 +77,28 @@ El programa deberá cumplir las siguientes condiciones:
 \subsubsection*{Solución}
 \inputcode{nasm}{./code/ajedrez.asm}
 
+Leemos las teclas presionadas mediante entrada controlada por programa. Dependiendo de la tecla presionada, saltamos a la subrutina 'Clear', que borra el tablero, o 'Print', que lo dibuja. Para dibujarlo se va recorriendo la pantalla pixel por pixel, cambiando de color cada 2 píxeles. Además, cada 32 píxeles, que corresponde a dos filas de píxeles, o una fila de cuadros, hacemos que se repita el color en el siguiente cuadro.
+
+
 \subsection*{1.2 Mario y Luigi}
 
 \begin{enumerate}[label=\alph*)]
     \item Abra el ejemplo “Draw Sprite” (Para ello, vaya a “File”, luego a “Samples”, luego a “Draw Sprite”).
-    \item Ensamble y ejecute el programa. El mismo dibuja un “Mario Bross” por la pantalla.
-    \item Modifique el código de manera que en lugar de Mario Bross, el programa dibuje a Luigi (Luigi tiene traje verde en lugar de traje rojo). El cambio de color debe realizarse a nivel de código, no a nivel de constantes.
+    \item Ensamble y ejecute el programa. El mismo dibuja un “Mario Bros” por la pantalla.
+    \item Modifique el código de manera que en lugar de Mario Bros, el programa dibuje a Luigi (Luigi tiene traje verde en lugar de traje rojo). El cambio de color debe realizarse a nivel de código, no a nivel de constantes.
 \end{enumerate}
 
 \subsubsection*{Solución}
 \inputcode{nasm}{./code/mario.asm}
+
 
 \subsection*{1.3 Camiseta de River Plate}
 
 Escriba un programa que dibuje en la pantalla una franja roja a -45° sobre fondo blanco (similar a la camiseta del club atlético River Plate), como se muestra en la figura.
 
 \begin{center}
-    \includegraphics*[width=76px]{./img/ej1.3.png}
+    \includegraphics*[width=66px]{./img/ej1.3.png}
 \end{center}
-
-El programa deberá cumplir las siguientes condiciones:
 
 \begin{enumerate}[label=\alph*)]
     \item La franja debe tener 5 píxeles de ancho.
@@ -118,17 +108,38 @@ El programa deberá cumplir las siguientes condiciones:
 \subsubsection*{Solución}
 \inputcode{nasm}{./code/river.asm}
 
+
+\pagebreak
 \section*{Actividad 2 - Interrupciones con Arduino}
 \subsection*{Actividad 2.1 - Interrupciones de los pines 2 y 3}
 
-\begin{enumerate}[leftmargin=0pt]
+\begin{enumerate}[leftmargin=0pt,itemsep=10pt]
 \item Utilizando la interfaz de desarrollo de las plataformas Arduino, escriba un programa que encienda los led del 6 al 13 consecutivamente, uno a la vez, durante 0,8 segundos cada led. Al terminar, deberá comenzar nuevamente, encendiendo desde el led 6.
 
-\item Escriba un bloque de código (puede ser como subrutina) que, al pulsar el pulsador conectado al pin 2, el led 7 parpadee durante 4 segundos, siendo el periodo de parpadeo de 0.1 segundos (0.05 segundos encendido, 0.05 segundos apagado), luego de los 4 segundos, el led 7 debe permanecer encendido durante un segundo completo, para luego salir de la rutina de servicio. Los demás leds deben permanecer apagados.
+\subsubsection*{Solución}
+\inputcode{Arduino}{./code/arduino2.1.1.ino}
 
-\item Escriba un bloque de código (puede ser como subrutina) que, al pulsar el pulsador conectado al pin 3, el led 12 parpadee durante 4 segundos, siendo el periodo de parpadeo de 0.1 segundos (0.05 segundos encendido, 0.05 segundos apagado), luego de los 4 segundos, el led 12 debe permanecer encendido durante un segundo completo, para luego salir de la rutina de servicio. Los demás leds deben permanecer apagados.
 
+\pagebreak
+\item Escriba un bloque de código (puede ser como subrutina) que, al pulsar el pulsador conectado al pin 2, el led 7 parpadee durante 4 segundos, siendo el periodo de parpadeo de 0.1 segundos (0.05 segundos encendido, 0.05 segundos apagado), luego de los 4 segundos, el led 7 debe permanecer encendido durante un segundo completo, para luego salir de la rutina de servicio. Los demás LEDs deben permanecer apagados.
+
+\subsubsection*{Solución}
+\inputcode{Arduino}{./code/arduino2.1.2.ino}
+
+
+\pagebreak
+\item Escriba un bloque de código (puede ser como subrutina) que, al pulsar el pulsador conectado al pin 3, el led 12 parpadee durante 4 segundos, siendo el periodo de parpadeo de 0.1 segundos (0.05 segundos encendido, 0.05 segundos apagado), luego de los 4 segundos, el led 12 debe permanecer encendido durante un segundo completo, para luego salir de la rutina de servicio. Los demás LEDs deben permanecer apagados.
+
+\subsubsection*{Solución}
+\inputcode{Arduino}{./code/arduino2.1.3.ino}
+
+
+\pagebreak
 \item Implemente los bloques de códigos escritos en los puntos 2 y 3 como rutinas de servicios de respectivas interrupciones, que deberán dispararse al pulsar los pulsadores 2 y 3 (Necesitará utilizar la primitiva “attachInterrupt”. En el anexo 1 encontrará instrucciones de uso).
+
+\subsubsection*{Solución}
+\inputcode{Arduino}{./code/arduino2.1.4.ino}
+
 
 \item Analice experimentalmente:
 
@@ -147,13 +158,18 @@ y analice el comportamiento del programa. En base a lo observado, conteste las s
     \item ¿Permite el microprocesador anidamiento de interrupciones?
     \item ¿Cuál interrupción tiene mayor prioridad?
     \item ¿Por qué la función delay(time) funciona adecuadamente dentro del código principal, pero funciona de manera diferente, o directamente no funciona, dentro de una rutina de servicio?
-    \item ¿Qué ocurriría con las situaciones descriptas en el puntos c si el microprocesador permitiera interrupciones anidadas?
+    \item ¿Qué ocurriría con las situaciones descritas en el puntos c si el microprocesador permitiera interrupciones anidadas?
     \item Si presiona los pulsadores siguiendo la secuencia 3, 2, 2, 2, 2 ,2 rápidamente, ¿Se ejecutará primero la rutina de servicio del pulsador 3, y luego se ejecutará 5 veces la rutina de servicio del pulsador 2?
 \end{enumerate}
 
+\subsubsection*{Solución}
+
+Contestado a través del cuestionario en la plataforma Moodle.
+
 \end{enumerate}
 
-\subsection*{Actividad 2.2 - - Funciones adicionales en sistemas embebidos}
+
+\subsection*{Actividad 2.2 - Funciones adicionales en sistemas embebidos}
 
 Esta actividad puede realizarse en conjunto con la actividad 2.1 (Agregando nuevo código al ya implementado).
 
@@ -166,14 +182,18 @@ Esta actividad puede realizarse en conjunto con la actividad 2.1 (Agregando nuev
 
 \item Utilice la función “unsigned long pulseIn(pin,nivel,timeout)” para leer el ancho del pulso. Imprima la información de la distancia por pantalla (recuerde dividir el valor leído por 58).
 
+\pagebreak
 \item Escriba un programa que implemente una alarma de distancia que realice las siguientes tareas:
 \begin{enumerate}
     \item Mida la distancia 0.8 segundos.
     \item Al presionar el pulsador 2 y mantenerlo presionado durante más de 5 segundos, la alarma debe activarse o desactivarse, según el estado previo (si estaba activada, debe desactivarse. Si estaba desactivada, debe activarse). Se debe mostrar por pantalla la frase “Alarma Activada” o “Alarma Desactivada”, según el caso.
     \item Por cada lectura de distancia, debe mostrarse el valor de la distancia y la leyenda “alarma activada” o “alarma desactivada” según corresponda.
-    \item Si la alarma está activada y se detecta que la distancia del intruso es menor a 1 metro, todos los leds deben parpadear rápidamente, y se debe mostrar por pantalla un mensaje de alerta de intruso.
+    \item Si la alarma está activada y se detecta que la distancia del intruso es menor a 1 metro, todos los LEDs deben parpadear rápidamente, y se debe mostrar por pantalla un mensaje de alerta de intruso.
     \item Si la alarma está desactivada y se detecta que la distancia del intruso es menor a 1 metro, no debe mostrarse nada ni realizar ninguna acción, ya que la alarma está desactivada.
 \end{enumerate}
 \end{enumerate}
+
+\subsubsection*{Solución}
+\inputcode{Arduino}{./code/arduino2.2.ino}
 
 \end{document}
